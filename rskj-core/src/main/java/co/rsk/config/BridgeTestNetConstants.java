@@ -110,6 +110,8 @@ public class BridgeTestNetConstants extends BridgeConstants {
         );
 
         genesisFeePerKb = Coin.MILLICOIN;
+
+        // TODO: define increaseLockingCapAuthorizer and initialLockingCap values
     }
 
     public static BridgeTestNetConstants getInstance() {

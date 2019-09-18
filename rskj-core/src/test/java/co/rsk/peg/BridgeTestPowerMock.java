@@ -138,7 +138,7 @@ public class BridgeTestPowerMock {
         Repository repository = createRepository();
         Repository track = repository.startTracking();
 
-        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true);
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true, true);
         BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, bridgeConstants, bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);
@@ -177,7 +177,7 @@ public class BridgeTestPowerMock {
         Repository repository = createRepository();
         Repository track = repository.startTracking();
 
-        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true);
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true, true);
         BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, bridgeConstants, bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);
@@ -221,7 +221,7 @@ public class BridgeTestPowerMock {
         Repository repository = createRepository();
         Repository track = repository.startTracking();
 
-        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true);
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = new BridgeStorageConfiguration(true, true, true);
         BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, bridgeConstants, bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);

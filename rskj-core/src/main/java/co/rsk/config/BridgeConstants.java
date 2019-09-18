@@ -52,6 +52,10 @@ public class BridgeConstants {
 
     protected Coin genesisFeePerKb;
 
+    protected AddressBasedAuthorizer increaseLockingCapAuthorizer;
+
+    protected Coin initialLockingCap;
+
     public NetworkParameters getBtcParams() {
         return NetworkParameters.fromID(btcParamsString);
     }
@@ -97,6 +101,10 @@ public class BridgeConstants {
     public AddressBasedAuthorizer getLockWhitelistChangeAuthorizer() { return lockWhitelistChangeAuthorizer; }
 
     public AddressBasedAuthorizer getFeePerKbChangeAuthorizer() { return feePerKbChangeAuthorizer; }
+
+    public AddressBasedAuthorizer getIncreaseLockingCapAuthorizer() { return increaseLockingCapAuthorizer; }
+
+    public Coin getInitialLockingCap() { return initialLockingCap; }
 
     public Coin getGenesisFeePerKb() { return genesisFeePerKb; }
 }

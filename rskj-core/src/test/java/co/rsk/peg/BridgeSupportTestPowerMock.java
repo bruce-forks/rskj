@@ -133,7 +133,7 @@ public class BridgeSupportTestPowerMock {
     public void setUpOnEachTest(){
         bridgeConstants = BridgeRegTestConstants.getInstance();
         btcParams = bridgeConstants.getBtcParams();
-        bridgeStorageConfigurationAtHeightZero = new BridgeStorageConfiguration(true, true);
+        bridgeStorageConfigurationAtHeightZero = new BridgeStorageConfiguration(true, true, true);
     }
 
     @Test
@@ -847,7 +847,7 @@ public class BridgeSupportTestPowerMock {
                 track,
                 PrecompiledContracts.BRIDGE_ADDR,
                 bridgeConstants,
-                new BridgeStorageConfiguration(true, true)
+                new BridgeStorageConfiguration(true, true, true)
         ), track, null);
 
         bridgeSupport.addSignature(new BtcECKey(), null, PegTestUtils.createHash().getBytes());
@@ -915,7 +915,7 @@ public class BridgeSupportTestPowerMock {
                         track,
                         contractAddress,
                         bridgeConstants,
-                        new BridgeStorageConfiguration(true, true)
+                        new BridgeStorageConfiguration(true, true, true)
                 ), track, eventLogger, mock(Block.class),
                 null
         );
@@ -1013,7 +1013,7 @@ public class BridgeSupportTestPowerMock {
                         track,
                         contractAddress,
                         bridgeConstants,
-                        new BridgeStorageConfiguration(true, true)
+                        new BridgeStorageConfiguration(true, true, true)
                 ), track, eventLogger, mock(Block.class),
                 null
         );
@@ -1125,7 +1125,7 @@ public class BridgeSupportTestPowerMock {
                         track,
                         contractAddress,
                         bridgeConstants,
-                        new BridgeStorageConfiguration(true, true)
+                        new BridgeStorageConfiguration(true, true, true)
                 ), track, eventLogger, mock(Block.class),
                 null
         );
@@ -1575,15 +1575,15 @@ public class BridgeSupportTestPowerMock {
         NetworkParameters parameters = bridgeConstants.getBtcParams();
 
         List<BtcECKey> activeFederationKeys = Stream.of(
-                BtcECKey.fromPrivate(Hex.decode("fa01")),
-                BtcECKey.fromPrivate(Hex.decode("fa02"))
+            BtcECKey.fromPrivate(Hex.decode("fa01")),
+            BtcECKey.fromPrivate(Hex.decode("fa02"))
         ).sorted(BtcECKey.PUBKEY_COMPARATOR).collect(Collectors.toList());
 
         Federation activeFederation = new Federation(FederationTestUtils.getFederationMembersWithBtcKeys(activeFederationKeys), Instant.ofEpochMilli(2000L), 2L, parameters);
 
         List<BtcECKey> retiringFederationKeys = Stream.of(
-                BtcECKey.fromPrivate(Hex.decode("fb01")),
-                BtcECKey.fromPrivate(Hex.decode("fb02"))
+            BtcECKey.fromPrivate(Hex.decode("fb01")),
+            BtcECKey.fromPrivate(Hex.decode("fb02"))
         ).sorted(BtcECKey.PUBKEY_COMPARATOR).collect(Collectors.toList());
 
         Federation retiringFederation = new Federation(FederationTestUtils.getFederationMembersWithBtcKeys(retiringFederationKeys), Instant.ofEpochMilli(1000L), 1L, parameters);
@@ -2518,7 +2518,7 @@ public class BridgeSupportTestPowerMock {
     @Test
     public void addFederatorPublicKey_okNoKeys() throws IOException {
         VotingMocksProvider mocksProvider = new VotingMocksProvider("add", new byte[][]{
-                Hex.decode("031da807c71c2f303b7f409dd2605b297ac494a563be3b9ca5f52d95a43d183cc5")
+            Hex.decode("031da807c71c2f303b7f409dd2605b297ac494a563be3b9ca5f52d95a43d183cc5")
         }, true);
 
         PendingFederation pendingFederation = new PendingFederation(Collections.emptyList());
@@ -2626,7 +2626,7 @@ public class BridgeSupportTestPowerMock {
         }, false);
 
         PendingFederation pendingFederation = new PendingFederation(FederationTestUtils.getFederationMembersWithKeys(Arrays.asList(new BtcECKey[]{
-                BtcECKey.fromPublicOnly(Hex.decode("031da807c71c2f303b7f409dd2605b297ac494a563be3b9ca5f52d95a43d183cc5"))
+            BtcECKey.fromPublicOnly(Hex.decode("031da807c71c2f303b7f409dd2605b297ac494a563be3b9ca5f52d95a43d183cc5"))
         })));
         BridgeSupport bridgeSupport = getBridgeSupportWithMocksForFederationTests(
                 false,
@@ -3255,7 +3255,7 @@ public class BridgeSupportTestPowerMock {
         LockWhitelist mockedWhitelist = mock(LockWhitelist.class);
         when(mockedWhitelist.getSize()).thenReturn(4);
         List<LockWhitelistEntry> entries = Arrays.stream(new Integer[]{2,3,4,5}).map(i ->
-                new UnlimitedWhiteListEntry(new Address(parameters, BtcECKey.fromPrivate(BigInteger.valueOf(i)).getPubKeyHash()))
+            new UnlimitedWhiteListEntry(new Address(parameters, BtcECKey.fromPrivate(BigInteger.valueOf(i)).getPubKeyHash()))
         ).collect(Collectors.toList());
         when(mockedWhitelist.getAll()).thenReturn(entries);
         for (int i = 0; i < 4; i++) {
@@ -3278,8 +3278,8 @@ public class BridgeSupportTestPowerMock {
     public void addLockWhitelistAddress_ok() throws IOException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3332,8 +3332,8 @@ public class BridgeSupportTestPowerMock {
     public void addLockWhitelistAddress_invalidAddress() throws IOException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3348,8 +3348,8 @@ public class BridgeSupportTestPowerMock {
     public void setLockWhitelistDisableBlockDelay_ok() throws IOException, BlockStoreException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3375,8 +3375,8 @@ public class BridgeSupportTestPowerMock {
     public void setLockWhitelistDisableBlockDelay_negativeDisableBlockBI() throws IOException, BlockStoreException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3402,8 +3402,8 @@ public class BridgeSupportTestPowerMock {
     public void setLockWhitelistDisableBlockDelay_disableBlockDelayBIBiggerThanInt() throws IOException, BlockStoreException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3426,8 +3426,8 @@ public class BridgeSupportTestPowerMock {
     public void setLockWhitelistDisableBlockDelay_overflow() throws IOException, BlockStoreException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3453,8 +3453,8 @@ public class BridgeSupportTestPowerMock {
     public void setLockWhitelistDisableBlockDelay_maxIntValueDisableBlockBI() throws IOException, BlockStoreException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);
@@ -3567,8 +3567,8 @@ public class BridgeSupportTestPowerMock {
     public void removeLockWhitelistAddress_invalidAddress() throws IOException {
         Transaction mockedTx = mock(Transaction.class);
         byte[] senderBytes = ECKey.fromPublicOnly(Hex.decode(
-                // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
-                "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
+            // Public key hex of the authorized whitelist admin in regtest, taken from BridgeRegTestConstants
+            "04641fb250d7ca7a1cb4f530588e978013038ec4294d084d248869dd54d98873e45c61d00ceeaeeb9e35eab19fa5fbd8f07cb8a5f0ddba26b4d4b18349c09199ad"
         )).getAddress();
         RskAddress sender = new RskAddress(senderBytes);
         when(mockedTx.getSender()).thenReturn(sender);

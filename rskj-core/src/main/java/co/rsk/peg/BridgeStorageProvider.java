@@ -35,7 +35,7 @@ import java.util.*;
 
 /**
  * Provides an object oriented facade of the bridge contract memory.
- * @see co.rsk.remasc.RemascStorageProvider
+ * @see co.rsk.peg.BridgeStorageProvider
  * @author ajlopez
  * @author Oscar Guindzberg
  */
@@ -54,6 +54,7 @@ public class BridgeStorageProvider {
     private static final DataWord LOCK_UNLIMITED_WHITELIST_KEY = DataWord.fromString("unlimitedLockWhitelist");
     private static final DataWord FEE_PER_KB_KEY = DataWord.fromString("feePerKb");
     private static final DataWord FEE_PER_KB_ELECTION_KEY = DataWord.fromString("feePerKbElection");
+    private static final DataWord LOCKING_CAP_KEY = DataWord.fromString("lockingCap");
 
     // Version keys and versions
     private static final DataWord NEW_FEDERATION_FORMAT_VERSION = DataWord.fromString("newFederationFormatVersion");
@@ -93,6 +94,8 @@ public class BridgeStorageProvider {
 
     private Coin feePerKb;
     private ABICallElection feePerKbElection;
+
+    private Coin lockingCap;
 
     private HashMap<DataWord, Optional<Integer>> storageVersion;
 
@@ -434,6 +437,23 @@ public class BridgeStorageProvider {
         return feePerKbElection;
     }
 
+    public void saveLockingCap() {
+        if (this.bridgeStorageConfiguration.isLockingCapEnabled()) {
+            safeSaveToRepository(LOCKING_CAP_KEY, this.lockingCap, BridgeSerializationUtils::serializeCoin);
+        }
+    }
+
+    public void setLockingCap(Coin lockingCap) {
+        this.lockingCap = lockingCap;
+    }
+
+    public Coin getLockingCap() {
+        if (this.bridgeStorageConfiguration.isLockingCapEnabled()) {
+            return safeGetFromRepository(LOCKING_CAP_KEY, BridgeSerializationUtils::deserializeCoin);
+        }
+        return null;
+    }
+
     public void save() throws IOException {
         saveBtcTxHashesAlreadyProcessed();
 
@@ -455,6 +475,8 @@ public class BridgeStorageProvider {
 
         saveFeePerKb();
         saveFeePerKbElection();
+
+        saveLockingCap();
     }
 
     private Optional<Integer> getStorageVersion(DataWord versionKey) {
