@@ -449,7 +449,10 @@ public class BridgeStorageProvider {
 
     public Coin getLockingCap() {
         if (this.bridgeStorageConfiguration.isLockingCapEnabled()) {
-            return safeGetFromRepository(LOCKING_CAP_KEY, BridgeSerializationUtils::deserializeCoin);
+            if (this.lockingCap == null) {
+                this.lockingCap = safeGetFromRepository(LOCKING_CAP_KEY, BridgeSerializationUtils::deserializeCoin);
+            }
+            return this.lockingCap;
         }
         return null;
     }
