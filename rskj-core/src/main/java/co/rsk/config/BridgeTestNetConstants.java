@@ -110,6 +110,8 @@ public class BridgeTestNetConstants extends BridgeConstants {
         );
 
         genesisFeePerKb = Coin.MILLICOIN;
+
+        maxFeePerKb = Coin.valueOf(5000000L);
     }
 
     public static BridgeTestNetConstants getInstance() {

@@ -114,6 +114,8 @@ public class BridgeRegTestConstants extends BridgeConstants {
         );
 
         genesisFeePerKb = Coin.MILLICOIN;
+
+        maxFeePerKb = Coin.valueOf(5000000L);
     }
 
     public static BridgeRegTestConstants getInstance() {
