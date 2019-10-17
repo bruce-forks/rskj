@@ -126,6 +126,8 @@ public class BridgeRegTestConstants extends BridgeConstants {
         );
 
         initialLockingCap = Coin.valueOf(1_000L);
+
+        lockingCapIncrementsMultiplier = 2;
     }
 
     public static BridgeRegTestConstants getInstance() {
