@@ -439,7 +439,7 @@ public class BridgeStorageProvider {
 
     public void saveLockingCap() {
         if (this.bridgeStorageConfiguration.isLockingCapEnabled()) {
-            safeSaveToRepository(LOCKING_CAP_KEY, this.lockingCap, BridgeSerializationUtils::serializeCoin);
+            safeSaveToRepository(LOCKING_CAP_KEY, this.getLockingCap(), BridgeSerializationUtils::serializeCoin);
         }
     }
 
