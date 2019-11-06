@@ -62,6 +62,13 @@ public class TrieStoreImpl implements TrieStore {
             return;
         }
 
+        byte[] trieKeyBytes = trie.getHash().getBytes();
+
+        if (forceSaveRoot && this.store.get(trieKeyBytes) != null) {
+            // the full trie is already saved
+            return;
+        }
+
         trie.getLeft().getNode().ifPresent(t -> save(t, false));
         trie.getRight().getNode().ifPresent(t -> save(t, false));
 
@@ -82,7 +89,7 @@ public class TrieStoreImpl implements TrieStore {
             return;
         }
 
-        this.store.put(trie.getHash().getBytes(), trie.toMessage());
+        this.store.put(trieKeyBytes, trie.toMessage());
         savedTries.add(trie);
     }
 
