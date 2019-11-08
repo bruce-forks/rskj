@@ -88,7 +88,7 @@ public class DataSourceWithCache implements KeyValueDataSource {
     private void putKeyValue(ByteArrayWrapper key, byte[] value) {
         uncommittedCache.put(key, value);
 
-        if (uncommittedCache.size() > cacheSize) {
+        if (uncommittedCache.size() > cacheSize*4) {
             this.flush();
         }
     }
